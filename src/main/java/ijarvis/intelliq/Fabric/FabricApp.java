@@ -1,5 +1,8 @@
-package ijarvis.intelliq;
+package ijarvis.intelliq.Fabric;
 
+import ijarvis.intelliq.FabricCA.SampleUserCA;
+import ijarvis.intelliq.LedgerRecord;
+import ijarvis.intelliq.SampleUser;
 import org.apache.log4j.Logger;
 import org.hyperledger.fabric.sdk.*;
 import org.hyperledger.fabric.sdk.exception.CryptoException;
@@ -16,6 +19,7 @@ public class FabricApp{
     public static HFClient client=null;
     public static CryptoSuite cs = CryptoSuite.Factory.getCryptoSuite();
     public static User peer0org1=null;
+    public static String keypath="/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp";
 
     /**
      *  初始化超级账本的客户端等相关属性
@@ -23,8 +27,16 @@ public class FabricApp{
     public static void init() throws CryptoException, InvalidArgumentException {
         client = HFClient.createNewInstance();
         client.setCryptoSuite(cs);
-        String keystorepath= FabricApp.class.getResource("/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp").getPath();
+        String keystorepath = FabricApp.class.getResource(keypath).getPath();
         peer0org1 = new SampleUser(keystorepath, "Admin");
+        client.setUserContext(peer0org1);
+
+    }
+    public static void initCA() throws CryptoException, InvalidArgumentException {
+        client = HFClient.createNewInstance();
+        client.setCryptoSuite(cs);
+        String keystorepath = FabricApp.class.getResource(keypath).getPath();
+        peer0org1 = new SampleUserCA(keystorepath, "Admin");
         client.setUserContext(peer0org1);
 
     }

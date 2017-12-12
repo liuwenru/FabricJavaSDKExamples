@@ -1,4 +1,4 @@
-package ijarvis.intelliq;
+package ijarvis.intelliq.FabricCA;
 
 import org.hyperledger.fabric.sdk.Enrollment;
 import org.hyperledger.fabric.sdk.User;
@@ -15,11 +15,14 @@ import java.security.spec.PKCS8EncodedKeySpec;
 import java.util.HashSet;
 import java.util.Set;
 
-public class SampleUser implements User {
+public class SampleUserCA implements User {
 
     private final String certFolder;
     private final String userName;
-    public SampleUser(String certFolder, String userName) {
+    private String keyname;
+    private String cert;
+
+    public SampleUserCA(String certFolder, String userName) {
         this.certFolder = certFolder;
         this.userName = userName;
     }
@@ -51,7 +54,7 @@ public class SampleUser implements User {
             @Override
             public PrivateKey getKey() {
                 try {
-                    return loadPrivateKey(Paths.get(certFolder, "/keystore/ea2db84973c9c54436c47d7e10b9b63420f654ecd7c541fab14646e976294393_sk"));
+                    return loadPrivateKey(Paths.get(certFolder, "/caen.key"));
                 } catch (Exception e) {
                     return null;
                 }
@@ -59,7 +62,7 @@ public class SampleUser implements User {
             @Override
             public String getCert() {
                 try {
-                    return new String(Files.readAllBytes(Paths.get(certFolder, "/signcerts/Admin@org1.example.com-cert.pem")));
+                    return new String(Files.readAllBytes(Paths.get(certFolder, "/cert.pem")));
                 } catch (Exception e) {
                     return "";
                 }
