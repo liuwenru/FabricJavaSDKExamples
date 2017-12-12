@@ -8,7 +8,7 @@ import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import java.util.Collection;
 
 /**
- * Hello world!
+ * 实现封装一些超级账本的操作方法，注意此版本为未结合使用Fabric-CA模块的代码示例
  *
  */
 public class FabricApp{
@@ -28,6 +28,25 @@ public class FabricApp{
         client.setUserContext(peer0org1);
 
     }
+    /*
+    *   实现根绝给定的数据调用链码写入账本中
+    * */
+    public static void instertFabcar(Channel channel, LedgerRecord record) throws Exception {
+        QueryByChaincodeRequest req = client.newQueryProposalRequest();
+        ChaincodeID cid = ChaincodeID.newBuilder().setName("epointchaincodezzk").setVersion("0.1").build();
+        req.setChaincodeID(cid);
+        req.setFcn("addcard");
+        req.setArgs(record.toStringArray());
+        logger.debug("addcard data"+record.toStringArray());
+        Collection<ProposalResponse> resps = channel.queryByChaincode(req);
+        for (ProposalResponse resp : resps) {
+            String payload = new String(resp.getChaincodeActionResponsePayload());
+            System.out.println("response: " + payload);
+        }
+    }
+    /*
+     *   实现根绝给定的Key查询数据
+     * */
     public static void queryFabcar(Channel channel, String key) throws Exception {
         QueryByChaincodeRequest req = client.newQueryProposalRequest();
         ChaincodeID cid = ChaincodeID.newBuilder().setName("epointchaincodezzk").setVersion("0.1").build();
