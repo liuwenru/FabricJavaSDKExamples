@@ -38,9 +38,17 @@
 
 ### 1.2、 核心代码说明
 
-使用`SDk`调用链码
+使用`SDk`调用链码主要的步骤是：
+* 1、初始化HFClient
+* 2、实例化已经实现接口`User`的类加载已有的证书文件以及连接用户的私钥文件
+* 3、调用`client.setUserContext(peer0org1);`方法更新`client`的配置文件
+* 4、通过`client`获取通道对象(`channel`)，客户端设置发起交易需要使用的`Orderer`以及`Peer`对象
+* 5、通过`channel`对象设置调用链码的名称参数等等信息发起调用链码
 
 
+### 1.3、其他说明
+如果觉得所给测试用例代码不够明确，可以参考[官方网站此处的代码示例](https://github.com/hyperledger/fabric-sdk-java/blob/master/src/test/java/org/hyperledger/fabric/sdkintegration/End2endAndBackAgainIT.java)
+本代码只是将官方代码进行简化方便做实验以及测试。
 
 
 
