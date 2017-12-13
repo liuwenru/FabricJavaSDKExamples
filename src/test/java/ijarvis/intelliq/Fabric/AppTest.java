@@ -9,6 +9,8 @@ import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
 import org.junit.Before;
 import org.junit.Test;
 
+import java.util.UUID;
+
 /**
  * Unit test for simple App.
  */
@@ -27,6 +29,11 @@ public class AppTest {
         FabricApp fabricApp=new FabricApp();
         FabricApp.init();
     }
+
+    /**
+     *
+     * 测试链码插入操作
+     */
     @Test
     public void TestEpointChainCodeInstert() throws Exception {
         logger.debug("测试Fabric 插入功能");
@@ -37,7 +44,9 @@ public class AppTest {
         FabricApp.instertFabcar(channel,PERSONINFO);
     }
 
-
+    /**
+     * 测试链码查询操作
+     */
     @Test
     public void TestEpointChainCodeQuery() throws Exception {
         logger.debug("测试Fabric 查询功能");
@@ -46,6 +55,24 @@ public class AppTest {
         channel.addOrderer(FabricApp.client.newOrderer("orderer", CONNFIG_Orderer));
         channel.initialize();
         FabricApp.queryFabcar(channel, PERSONINFO.getPerid());
+    }
+
+    /**
+     *
+     */
+    @Test
+    public void TestEpointChainCodeMutilInstert() throws  Exception{
+        logger.debug("测试Fabric 循环插入1000个值测试监控值是否包含变化");
+        Channel channel = FabricApp.client.newChannel(CHANNELID);
+        channel.addPeer(FabricApp.client.newPeer("peer", CONNFIG_Peer0Org1));
+        channel.addOrderer(FabricApp.client.newOrderer("orderer", CONNFIG_Orderer));
+        channel.initialize();
+        for (int i =0 ;i<10000;i++){
+            String perid=UUID.randomUUID().toString();
+            LedgerRecord tmp=new LedgerRecord(perid,"测试","2017-12-13","江苏张家港","3000","苏州");
+            FabricApp.instertFabcar(channel, tmp);
+        }
+        logger.debug("测试完成");
     }
 
 

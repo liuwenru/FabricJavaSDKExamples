@@ -1,4 +1,4 @@
-package ijarvis.intelliq;
+package ijarvis.intelliq.Fabric;
 
 import org.hyperledger.fabric.sdk.Enrollment;
 import org.hyperledger.fabric.sdk.User;

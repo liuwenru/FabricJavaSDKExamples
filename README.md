@@ -45,6 +45,90 @@
 * 4、通过`client`获取通道对象(`channel`)，客户端设置发起交易需要使用的`Orderer`以及`Peer`对象
 * 5、通过`channel`对象设置调用链码的名称参数等等信息发起调用链码
 
+```java
+package ijarvis.intelliq.Fabric;
+// 省略相关的包导入
+public class SampleUser implements User {
+    private final String certFolder;
+    private final String userName;
+    public SampleUser(String certFolder, String userName) {
+        this.certFolder = certFolder;
+        this.userName = userName;
+    }
+    //省略相关Set和Get方法
+    
+    /**
+    * 
+    * 重要实现方法，不使用CA需要自己实现如何加载私钥以及证书信息
+    */
+    @Override
+    public Enrollment getEnrollment() {
+        return new Enrollment() {
+
+            @Override
+            public PrivateKey getKey() {
+                try {
+                    return loadPrivateKey(Paths.get(certFolder, "/keystore/ea2db84973c9c54436c47d7e10b9b63420f654ecd7c541fab14646e976294393_sk"));
+                } catch (Exception e) {
+                    return null;
+                }
+            }
+            @Override
+            public String getCert() {
+                try {
+                    return new String(Files.readAllBytes(Paths.get(certFolder, "/signcerts/Admin@org1.example.com-cert.pem")));
+                } catch (Exception e) {
+                    return "";
+                }
+            }
+        };
+    }
+    
+    //测试代码所以固定写死相关的MSPID
+    @Override
+    public String getMspId() {
+        return "Org1MSP";
+    }
+    /***
+     * 实现加载证书服务
+     */
+    public static PrivateKey loadPrivateKey(Path fileName) throws IOException, GeneralSecurityException {
+        PrivateKey key = null;
+        InputStream is = null;
+        try {
+            is = new FileInputStream(fileName.toString());
+            BufferedReader br = new BufferedReader(new InputStreamReader(is));
+            StringBuilder builder = new StringBuilder();
+            boolean inKey = false;
+            for (String line = br.readLine(); line != null; line = br.readLine()) {
+                if (!inKey) {
+                    if (line.startsWith("-----BEGIN ") && line.endsWith(" PRIVATE KEY-----")) {
+                        inKey = true;
+                    }
+                    continue;
+                } else {
+                    if (line.startsWith("-----END ") && line.endsWith(" PRIVATE KEY-----")) {
+                        inKey = false;
+                        break;
+                    }
+                    builder.append(line);
+                }
+            }
+            //
+            byte[] encoded = DatatypeConverter.parseBase64Binary(builder.toString());
+            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);
+            KeyFactory kf = KeyFactory.getInstance("ECDSA");
+            key = kf.generatePrivate(keySpec);
+        } finally {
+            is.close();
+        }
+        return key;
+    }
+}
+
+
+```
+
 
 ### 1.3、其他说明
 如果觉得所给测试用例代码不够明确，可以参考[官方网站此处的代码示例](https://github.com/hyperledger/fabric-sdk-java/blob/master/src/test/java/org/hyperledger/fabric/sdkintegration/End2endAndBackAgainIT.java)
