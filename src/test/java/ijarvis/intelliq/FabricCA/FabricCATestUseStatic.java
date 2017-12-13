@@ -10,7 +10,7 @@ import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
 import org.junit.Before;
 import org.junit.Test;
 
-public class FabricCATest {
+public class FabricCATestUseStatic {
     private static Logger logger=Logger.getLogger(AppTest.class);
     private static String CONNFIG_Orderer="grpc://192.168.188.111:7050";
     private static String CONNFIG_Peer0Org1="grpc://192.168.188.112:7051";
