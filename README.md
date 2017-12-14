@@ -140,7 +140,7 @@ public class SampleUser implements User {
 ```bash
 user1.setEnrollment(hfcaClient.enroll(user1.getName(), "admin")); 
 ```
-即可实现从`CA`中获取到私钥以及证书，发起`ECer`交易。详细的测试可以参见代码`FabricExample/src/test/java/ijarvis/intelliq/FabricCA/FabricCATestUseCAServer.java`
+即可实现从`CA`中获取到私钥以及证书，发起`ECer`交易。详细的测试可以参见代码`src/test/java/ijarvis/intelliq/FabricCA/FabricCATestUseCAServer.java`
 
 
 ## 三、链码操作
