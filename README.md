@@ -167,4 +167,4 @@ Shell> peer chaincode invoke -o orderer.example.com:7050   -C $CHANNEL_NAME -n e
 ## 四、调用结果展示
 
 
-![](https://github.com/liuwenru/FabricJavaSDKExamples/doc/img/QQ20171214-163532.png)
+![](https://github.com/liuwenru/FabricJavaSDKExamples/blob/master/doc/img/QQ20171214-163532.png)
