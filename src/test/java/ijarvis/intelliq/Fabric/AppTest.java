@@ -22,7 +22,7 @@ public class AppTest {
     private static String CONNFIG_Peer0Org2="grpc://192.168.188.114:7051";
     private static String CONNFIG_Peer1Org2="grpc://192.168.188.115:7051";
     private static String CHANNELID="epointchannel";
-    private static LedgerRecord PERSONINFO=new LedgerRecord("liudong","刘东","2017-12-12","江苏省张家港市","10000","江苏省苏州市张家港市国泰新点");
+    private static LedgerRecord PERSONINFO=new LedgerRecord("liudong","刘东");
     @Before
     public void Setup() throws CryptoException, InvalidArgumentException {
         logger.debug("Fabric Test Init........");
@@ -54,7 +54,7 @@ public class AppTest {
         channel.addPeer(FabricApp.client.newPeer("peer", CONNFIG_Peer0Org1));
         channel.addOrderer(FabricApp.client.newOrderer("orderer", CONNFIG_Orderer));
         channel.initialize();
-        FabricApp.queryFabcar(channel, PERSONINFO.getPerid());
+        FabricApp.queryFabcar(channel, PERSONINFO.getKey());
     }
 
     /**
@@ -69,7 +69,7 @@ public class AppTest {
         channel.initialize();
         for (int i =0 ;i<10000;i++){
             String perid=UUID.randomUUID().toString();
-            LedgerRecord tmp=new LedgerRecord(perid,"测试","2017-12-13","江苏张家港","3000","苏州");
+            LedgerRecord tmp=new LedgerRecord(perid,"测试");
             FabricApp.instertFabcar(channel, tmp);
         }
         logger.debug("测试完成");

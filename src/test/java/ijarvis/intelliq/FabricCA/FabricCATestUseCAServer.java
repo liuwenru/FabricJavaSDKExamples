@@ -21,9 +21,8 @@ import java.util.HashMap;
  */
 public class FabricCATestUseCAServer {
     private static Logger logger=Logger.getLogger(FabricCATestUseCAServer.class);
-    private static String CHANNELID="epointchannel";
     HashMap<String,SampleOrg> orgHashMap=new HashMap<>();
-    private static LedgerRecord PERSONINFO=new LedgerRecord("liuwenru","刘美丽","2017-12-12","江苏省张家港市","10000","江苏省苏州市张家港市国泰新点");
+    private static LedgerRecord PERSONINFO=new LedgerRecord("liuwenru","刘文儒");
 
     @Before
     public void Setup() throws EnrollmentException, InvalidArgumentException, CryptoException, org.hyperledger.fabric.sdk.exception.InvalidArgumentException, MalformedURLException {
@@ -37,12 +36,43 @@ public class FabricCATestUseCAServer {
         FabricCAApp.init(user1);
     }
     @Test
-    public void TestEpointChainCodeQuery() throws Exception {
-        logger.debug("测试Fabric 查询功能");
-        Channel channel = FabricCAApp.client.newChannel(CHANNELID);
+    public void TestEpointChainCodeAddKV()throws Exception{
+        logger.debug("链码测试........向链码中添加KV");
+        Channel channel = FabricCAApp.client.newChannel(TestConfigure.CHANNLNAME);
         channel.addPeer(FabricCAApp.client.newPeer("peer", orgHashMap.get("org1").getPeerLocation("peer0org1")));
         channel.addOrderer(FabricCAApp.client.newOrderer("orderer", orgHashMap.get("org1").getOrdererLocation("orderer")));
         channel.initialize();
-        FabricCAApp.queryFabcar(channel, PERSONINFO.getPerid());
+        FabricCAApp.addKV(channel, PERSONINFO);
+
+    }
+    @Test
+    public void TestEpointChainCodeUpdate() throws Exception {
+        logger.debug("链码测试........向链码中更新KV");
+        LedgerRecord tmp=new LedgerRecord("liuwenru","刘美丽");
+        Channel channel = FabricCAApp.client.newChannel(TestConfigure.CHANNLNAME);
+        channel.addPeer(FabricCAApp.client.newPeer("peer", orgHashMap.get("org1").getPeerLocation("peer0org1")));
+        channel.addOrderer(FabricCAApp.client.newOrderer("orderer", orgHashMap.get("org1").getOrdererLocation("orderer")));
+        channel.initialize();
+        FabricCAApp.updateKV(channel, tmp);
+    }
+
+    @Test
+    public void TestEpointChainCodeQuery() throws Exception{
+        logger.debug("链码测试........向链码查询");
+        Channel channel = FabricCAApp.client.newChannel(TestConfigure.CHANNLNAME);
+        channel.addPeer(FabricCAApp.client.newPeer("peer", orgHashMap.get("org1").getPeerLocation("peer0org1")));
+        channel.addOrderer(FabricCAApp.client.newOrderer("orderer", orgHashMap.get("org1").getOrdererLocation("orderer")));
+        channel.initialize();
+        FabricCAApp.querykv(channel, PERSONINFO.getKey());
+    }
+
+    @Test
+    public void TestEpointChainCodeQueryHistory() throws Exception{
+        logger.debug("链码测试........向链码查询给定Key的历史值");
+        Channel channel = FabricCAApp.client.newChannel(TestConfigure.CHANNLNAME);
+        channel.addPeer(FabricCAApp.client.newPeer("peer", orgHashMap.get("org1").getPeerLocation("peer0org1")));
+        channel.addOrderer(FabricCAApp.client.newOrderer("orderer", orgHashMap.get("org1").getOrdererLocation("orderer")));
+        channel.initialize();
+        FabricCAApp.queryhistory(channel, PERSONINFO.getKey());
     }
 }

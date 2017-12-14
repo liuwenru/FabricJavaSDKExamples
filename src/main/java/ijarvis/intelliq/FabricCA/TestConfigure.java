@@ -10,6 +10,9 @@ import java.net.MalformedURLException;
 import java.util.HashMap;
 
 public class TestConfigure {
+    public static String CHAINCODENAME="epointchaincodecommon";
+    public static String CHAINCODEVERSION="0.2";
+    public static String CHANNLNAME="epointchannel";
     public static HashMap<String,SampleOrg> getConfigure() throws MalformedURLException, InvalidArgumentException {
         HashMap<String,SampleOrg> orgHashMap=new HashMap<>();
         SampleOrg org1=new SampleOrg("org1","Org1MSP");
