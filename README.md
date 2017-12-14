@@ -8,6 +8,8 @@
 
 ```bash
 ├── pom.xml
+├── doc                                    # 运行结果图片
+├── cc                                     # 使用Go实现的链码
 ├── src
 │   ├── main
 │   │   ├── java
