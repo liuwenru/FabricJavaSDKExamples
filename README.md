@@ -125,8 +125,6 @@ public class SampleUser implements User {
         return key;
     }
 }
-
-
 ```
 
 
@@ -136,5 +134,33 @@ public class SampleUser implements User {
 
 
 
+## 二、使用CA Server调用链码
 
+与不通过CA模块调用的链码相比其实只差一个步骤，在不使用`CA`模块时构造`SampleUser`时我们要自己实现`getEnrollment`的方法，在该方法中需要我们自定义去加载私钥以及证书字节，但是有了`CA`模块后我们只需要在构建`Sampleuser`时调用
+```bash
+user1.setEnrollment(hfcaClient.enroll(user1.getName(), "admin")); 
+```
+即可实现从`CA`中获取到私钥以及证书，发起`ECer`交易。详细的测试可以参见代码`FabricExample/src/test/java/ijarvis/intelliq/FabricCA/FabricCATestUseCAServer.java`
+
+
+## 三、链码操作
+
+本节主要介绍测试环境中链码的安装部署与实例化操作，希望通过该方法可以快速的验证测试链码环境中的问题
+
+```bash
+# 安装链码
+Shell> peer chaincode install -n epointchaincodecommon   -p epointchaincodecommon -v 0.1
+# 实例化链码操作
+Shell> peer chaincode instantiate -o orderer.example.com:7050  -C $CHANNEL_NAME  -c '{"Args":["init"]}' -P "OR  ('Org1MSP.member','Org2MSP.member')" -n epointchaincodecommon -v 0.1
+# 调用插入KV操作链码
+Shell> peer chaincode invoke -o orderer.example.com:7050   -C $CHANNEL_NAME -n epointchaincodecommon -v 0.1 -c '{"Args":["addkv","liuwenru","刘文儒"]}'
+# 调用更新KV操作链码
+Shell> peer chaincode invoke -o orderer.example.com:7050   -C $CHANNEL_NAME -n epointchaincodecommon -v 0.1 -c '{"Args":["updatekv","liuwenru","刘美丽"]}'
+# 调用查询KV操作链码
+Shell> peer chaincode invoke -o orderer.example.com:7050   -C $CHANNEL_NAME -n epointchaincodecommon -v 0.1 -c '{"Args":["query","liuwenru"]}'
+# 根绝给定的Key查询该账本中所有的历史操作
+Shell> peer chaincode invoke -o orderer.example.com:7050   -C $CHANNEL_NAME -n epointchaincodecommon -v 0.1 -c '{"Args":["queryhistory","liuwenru"]}'
+# 调用删除链码操作，注意，此删除操作只会删除账本中当前的值，对于账本中的历史值是不会删除的
+Shell> peer chaincode invoke -o orderer.example.com:7050   -C $CHANNEL_NAME -n epointchaincodecommon -v 0.1 -c '{"Args":["delkv","liuwenru"]}'
+```
 
