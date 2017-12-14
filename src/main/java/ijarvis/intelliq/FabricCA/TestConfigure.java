@@ -1,6 +1,12 @@
 package ijarvis.intelliq.FabricCA;
 
-//实现初始化调用Fabric-CA模块以及Fabric
+/**
+ * 实现初始化调用Fabric-CA模块以及Fabric
+ * 主要是实现加载初始化系统使用的到的一些环境变量以及通用配置等信息
+ */
+
+
+
 
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import org.hyperledger.fabric_ca.sdk.HFCAClient;

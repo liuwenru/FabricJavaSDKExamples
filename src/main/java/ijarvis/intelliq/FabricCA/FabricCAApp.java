@@ -18,6 +18,7 @@ public class FabricCAApp {
     public static CryptoSuite cs = CryptoSuite.Factory.getCryptoSuite();
     public static ChaincodeID cid = ChaincodeID.newBuilder().setName(TestConfigure.CHAINCODENAME).setVersion(TestConfigure.CHAINCODEVERSION).build();
     public static void init(User CAUSER) throws CryptoException, InvalidArgumentException {
+        //创建一个Client客户端
         client = HFClient.createNewInstance();
         client.setCryptoSuite(cs);
         client.setUserContext(CAUSER);
@@ -51,11 +52,6 @@ public class FabricCAApp {
             logger.debug("response: " + payload);
         }
     }
-
-
-
-
-
     /*
      *   实现根绝给定的Key查询数据
      * */
@@ -71,7 +67,6 @@ public class FabricCAApp {
             logger.debug("response: " + payload);
         }
     }
-
     /**
      *  调用链码查询给定Key的历史值
      */

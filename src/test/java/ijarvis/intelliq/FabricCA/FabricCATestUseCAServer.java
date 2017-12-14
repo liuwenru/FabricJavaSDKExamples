@@ -58,7 +58,7 @@ public class FabricCATestUseCAServer {
 
     @Test
     public void TestEpointChainCodeQuery() throws Exception{
-        logger.debug("链码测试........向链码查询");
+        logger.debug("链码测试........向链码查询key值");
         Channel channel = FabricCAApp.client.newChannel(TestConfigure.CHANNLNAME);
         channel.addPeer(FabricCAApp.client.newPeer("peer", orgHashMap.get("org1").getPeerLocation("peer0org1")));
         channel.addOrderer(FabricCAApp.client.newOrderer("orderer", orgHashMap.get("org1").getOrdererLocation("orderer")));

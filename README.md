@@ -164,3 +164,7 @@ Shell> peer chaincode invoke -o orderer.example.com:7050   -C $CHANNEL_NAME -n e
 Shell> peer chaincode invoke -o orderer.example.com:7050   -C $CHANNEL_NAME -n epointchaincodecommon -v 0.1 -c '{"Args":["delkv","liuwenru"]}'
 ```
 
+## 四、调用结果展示
+
+
+![](https://github.com/liuwenru/FabricJavaSDKExamples/doc/img/QQ20171214-163532.png)
