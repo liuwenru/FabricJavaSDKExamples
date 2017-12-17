@@ -7,6 +7,7 @@ import org.hyperledger.fabric.sdk.Channel;
 import org.hyperledger.fabric.sdk.exception.CryptoException;
 import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 
 import java.util.UUID;
@@ -22,7 +23,7 @@ public class AppTest {
     private static String CONNFIG_Peer0Org2="grpc://192.168.188.114:7051";
     private static String CONNFIG_Peer1Org2="grpc://192.168.188.115:7051";
     private static String CHANNELID="epointchannel";
-    private static LedgerRecord PERSONINFO=new LedgerRecord("liudong","刘东");
+    private static LedgerRecord PERSONINFO=new LedgerRecord("liuwenru","{name:\"liuwenhua\",cname:\"刘文华\"}");
     @Before
     public void Setup() throws CryptoException, InvalidArgumentException {
         logger.debug("Fabric Test Init........");
@@ -60,6 +61,7 @@ public class AppTest {
     /**
      *
      */
+    @Ignore
     @Test
     public void TestEpointChainCodeMutilInstert() throws  Exception{
         logger.debug("测试Fabric 循环插入1000个值测试监控值是否包含变化");

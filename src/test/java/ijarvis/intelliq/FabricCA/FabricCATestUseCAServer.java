@@ -22,7 +22,7 @@ import java.util.HashMap;
 public class FabricCATestUseCAServer {
     private static Logger logger=Logger.getLogger(FabricCATestUseCAServer.class);
     HashMap<String,SampleOrg> orgHashMap=new HashMap<>();
-    private static LedgerRecord PERSONINFO=new LedgerRecord("liuwenru","刘文儒");
+    private static LedgerRecord PERSONINFO=new LedgerRecord("liuwenru","基础设置支持部");
 
     @Before
     public void Setup() throws EnrollmentException, InvalidArgumentException, CryptoException, org.hyperledger.fabric.sdk.exception.InvalidArgumentException, MalformedURLException {
@@ -48,7 +48,7 @@ public class FabricCATestUseCAServer {
     @Test
     public void TestEpointChainCodeUpdate() throws Exception {
         logger.debug("链码测试........向链码中更新KV");
-        LedgerRecord tmp=new LedgerRecord("liuwenru","刘美丽");
+        LedgerRecord tmp=new LedgerRecord("liuwenru","刘美丽，刘帅帅");
         Channel channel = FabricCAApp.client.newChannel(TestConfigure.CHANNLNAME);
         channel.addPeer(FabricCAApp.client.newPeer("peer", orgHashMap.get("org1").getPeerLocation("peer0org1")));
         channel.addOrderer(FabricCAApp.client.newOrderer("orderer", orgHashMap.get("org1").getOrdererLocation("orderer")));

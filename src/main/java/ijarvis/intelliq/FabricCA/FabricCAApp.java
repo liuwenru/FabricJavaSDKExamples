@@ -11,6 +11,10 @@ import org.hyperledger.fabric.sdk.exception.ProposalException;
 import org.hyperledger.fabric.sdk.security.CryptoSuite;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
+
+import static java.nio.charset.StandardCharsets.UTF_8;
 
 public class FabricCAApp {
     private static Logger logger=Logger.getLogger(FabricCAApp.class);
@@ -28,29 +32,40 @@ public class FabricCAApp {
      * 调用链码添加KV结构
      */
     public static void addKV(Channel channel, LedgerRecord record) throws ProposalException, InvalidArgumentException {
-        QueryByChaincodeRequest req = client.newQueryProposalRequest();
+        TransactionProposalRequest req = client.newTransactionProposalRequest();
         req.setChaincodeID(cid);
         req.setFcn("addkv");
         req.setArgs(record.toStringArray());
-        Collection<ProposalResponse> resps = channel.queryByChaincode(req);
+        //TODO 该段代码必须调用，但是未在官方的代码中找到相关的代码说明
+        Map<String, byte[]> tm2 = new HashMap<>();
+        tm2.put("HyperLedgerFabric", "TransactionProposalRequest:JavaSDK".getBytes(UTF_8));
+        tm2.put("method", "TransactionProposalRequest".getBytes(UTF_8));
+        tm2.put("result", ":)".getBytes(UTF_8));
+        req.setTransientMap(tm2);
+
+
+        Collection<ProposalResponse> resps = channel.sendTransactionProposal(req);
+
         for (ProposalResponse resp : resps) {
             String payload = new String(resp.getChaincodeActionResponsePayload());
             logger.debug("response: " + payload);
         }
+        channel.sendTransaction(resps);
     }
     /**
      * 调用链码更新
      */
     public static void updateKV(Channel channel,LedgerRecord record) throws ProposalException, InvalidArgumentException {
-        QueryByChaincodeRequest req = client.newQueryProposalRequest();
+        TransactionProposalRequest req = client.newTransactionProposalRequest();
         req.setChaincodeID(cid);
         req.setFcn("updatekv");
         req.setArgs(record.toStringArray());
-        Collection<ProposalResponse> resps = channel.queryByChaincode(req);
+        Collection<ProposalResponse> resps = channel.sendTransactionProposal(req);
         for (ProposalResponse resp : resps) {
             String payload = new String(resp.getChaincodeActionResponsePayload());
             logger.debug("response: " + payload);
         }
+        channel.sendTransaction(resps);
     }
     /*
      *   实现根绝给定的Key查询数据

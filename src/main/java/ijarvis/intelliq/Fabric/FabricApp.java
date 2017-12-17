@@ -19,7 +19,8 @@ public class FabricApp{
     public static CryptoSuite cs = CryptoSuite.Factory.getCryptoSuite();
     public static User peer0org1=null;
     public static String keypath="/crypto-config/peerOrganizations/org1.example.com/users/Admin@org1.example.com/msp";
-
+    public static String CHAINCODENAME="epointchaincodecommon";
+    public static String CHAINCODEVERSION="0.2";
     /**
      *  初始化超级账本的客户端等相关属性
      */
@@ -44,9 +45,9 @@ public class FabricApp{
     * */
     public static void instertFabcar(Channel channel, LedgerRecord record) throws Exception {
         QueryByChaincodeRequest req = client.newQueryProposalRequest();
-        ChaincodeID cid = ChaincodeID.newBuilder().setName("epointchaincodezzk").setVersion("0.1").build();
+        ChaincodeID cid = ChaincodeID.newBuilder().setName(CHAINCODENAME).setVersion(CHAINCODEVERSION).build();
         req.setChaincodeID(cid);
-        req.setFcn("addcard");
+        req.setFcn("addkv");
         req.setArgs(record.toStringArray());
         logger.debug("addcard data"+record.toStringArray());
         Collection<ProposalResponse> resps = channel.queryByChaincode(req);
@@ -60,7 +61,7 @@ public class FabricApp{
      * */
     public static void queryFabcar(Channel channel, String key) throws Exception {
         QueryByChaincodeRequest req = client.newQueryProposalRequest();
-        ChaincodeID cid = ChaincodeID.newBuilder().setName("epointchaincodezzk").setVersion("0.1").build();
+        ChaincodeID cid = ChaincodeID.newBuilder().setName(CHAINCODENAME).setVersion(CHAINCODEVERSION).build();
         req.setChaincodeID(cid);
         req.setFcn("query");
         req.setArgs(new String[] { key });
