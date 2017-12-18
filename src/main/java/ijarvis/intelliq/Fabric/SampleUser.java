@@ -1,5 +1,6 @@
 package ijarvis.intelliq.Fabric;
 
+import org.apache.log4j.Logger;
 import org.hyperledger.fabric.sdk.Enrollment;
 import org.hyperledger.fabric.sdk.User;
 
@@ -16,14 +17,40 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class SampleUser implements User {
-
-    private final String certFolder;
+    private static Logger logger=Logger.getLogger(SampleUser.class);
+    public  String CERTDIR=FabricApp.class.getResource("/").getPath();
+    private  String certfilepath;
+    private  String keyfilepath;
     private final String userName;
-    public SampleUser(String certFolder, String userName) {
-        this.certFolder = certFolder;
-        this.userName = userName;
-    }
+    private String mspid;
+    public SampleUser(String USERTYPE, String userName,String mspid) {
+        String certfilepath1;
+        if("peer".equals(USERTYPE)){
+            CERTDIR=CERTDIR+"/crypto-config/peerOrganizations";
+        }else if ("orderer".equals(USERTYPE)){
+            CERTDIR=CERTDIR+"/crypto-config/ordererOrganizations";
+        }
+        if (mspid.equals("Org1MSP")){
+            certfilepath =CERTDIR+"/org1.example.com/users/"+userName+"@org1.example.com/msp/signcerts/";
+            File skfile=new File(certfilepath);
+            certfilepath =certfilepath+skfile.listFiles()[0].getName();
 
+            keyfilepath =CERTDIR+"/org1.example.com/users/"+userName+"@org1.example.com/msp/keystore/";
+            File keyfile=new File(keyfilepath);
+            keyfilepath =keyfilepath+keyfile.listFiles()[0].getName();
+        }else {
+            certfilepath =CERTDIR+"/org2.example.com/users/"+userName+"@org2.example.com/msp/signcerts/";
+            File skfile=new File(certfilepath);
+            certfilepath =certfilepath+skfile.listFiles()[0].getName();
+
+            keyfilepath =CERTDIR+"/org2.example.com/users/"+userName+"@org2.example.com/msp/keystore/";
+            File keyfile=new File(keyfilepath);
+            keyfilepath =keyfilepath+keyfile.listFiles()[0].getName();
+        }
+
+        this.userName = userName;
+        this.mspid=mspid;
+    }
     @Override
     public String getName() {
         return userName;
@@ -51,7 +78,7 @@ public class SampleUser implements User {
             @Override
             public PrivateKey getKey() {
                 try {
-                    return loadPrivateKey(Paths.get(certFolder, "/keystore/ea2db84973c9c54436c47d7e10b9b63420f654ecd7c541fab14646e976294393_sk"));
+                    return loadPrivateKey(Paths.get(keyfilepath));
                 } catch (Exception e) {
                     return null;
                 }
@@ -59,7 +86,7 @@ public class SampleUser implements User {
             @Override
             public String getCert() {
                 try {
-                    return new String(Files.readAllBytes(Paths.get(certFolder, "/signcerts/Admin@org1.example.com-cert.pem")));
+                    return new String(Files.readAllBytes(Paths.get(certfilepath)));
                 } catch (Exception e) {
                     return "";
                 }
@@ -69,16 +96,12 @@ public class SampleUser implements User {
 
     @Override
     public String getMspId() {
-        return "Org1MSP";
+        return this.mspid;
     }
+
+
     /***
-     * loading private key from .pem-formatted file, ECDSA algorithm
-     * (from some example on StackOverflow, slightly changed)
-     * @param fileName - file with the key
-     * @return Private Key usable
-     * @throws IOException
-     * @throws GeneralSecurityException
-     */
+     *     */
     public static PrivateKey loadPrivateKey(Path fileName) throws IOException, GeneralSecurityException {
         PrivateKey key = null;
         InputStream is = null;

@@ -1,6 +1,8 @@
 package ijarvis.intelliq.Fabric;
 
 
+import ijarvis.intelliq.FabricCA.FabricCAApp;
+import ijarvis.intelliq.FabricCA.TestConfigure;
 import ijarvis.intelliq.LedgerRecord;
 import org.apache.log4j.Logger;
 import org.hyperledger.fabric.sdk.Channel;
@@ -25,7 +27,7 @@ public class AppTest {
     private static String CHANNELID="epointchannel";
     private static LedgerRecord PERSONINFO=new LedgerRecord("liuwenru","{name:\"liuwenhua\",cname:\"刘文华\"}");
     @Before
-    public void Setup() throws CryptoException, InvalidArgumentException {
+    public void Setup() throws Exception{
         logger.debug("Fabric Test Init........");
         FabricApp fabricApp=new FabricApp();
         FabricApp.init();
@@ -35,6 +37,7 @@ public class AppTest {
      *
      * 测试链码插入操作
      */
+    @Ignore
     @Test
     public void TestEpointChainCodeInstert() throws Exception {
         logger.debug("测试Fabric 插入功能");
@@ -51,9 +54,9 @@ public class AppTest {
     @Test
     public void TestEpointChainCodeQuery() throws Exception {
         logger.debug("测试Fabric 查询功能");
-        Channel channel = FabricApp.client.newChannel(CHANNELID);
-        channel.addPeer(FabricApp.client.newPeer("peer", CONNFIG_Peer0Org1));
-        channel.addOrderer(FabricApp.client.newOrderer("orderer", CONNFIG_Orderer));
+        Channel channel = FabricApp.client.newChannel(TestConfigure.CHANNLNAME);
+        channel.addPeer(FabricApp.client.newPeer("peer", FabricApp.orgHashMap.get("org1").getPeerLocation("peer0org1")));
+        channel.addOrderer(FabricApp.client.newOrderer("orderer", FabricApp.orgHashMap.get("org1").getOrdererLocation("orderer")));
         channel.initialize();
         FabricApp.queryFabcar(channel, PERSONINFO.getKey());
     }
