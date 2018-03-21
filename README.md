@@ -168,5 +168,20 @@ Shell> peer chaincode invoke -o orderer.example.com:7050   -C $CHANNEL_NAME -n e
 
 ## 四、调用结果展示
 
-
 ![](https://github.com/liuwenru/FabricJavaSDKExamples/blob/master/doc/img/QQ20171214-163532.png)
+
+
+## 五、学习笔记目录列表
+
+
+
+
+
+- 一、基础环境的搭建步骤
+	- 1.1 [hyperledger1.0分布式环境搭建](doc/1.1hyperledger1.0分布式环境搭建.md)
+
+
+
+
+
+
