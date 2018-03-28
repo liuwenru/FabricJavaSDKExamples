@@ -174,8 +174,8 @@ Shell> peer chaincode invoke -o orderer.example.com:7050   -C $CHANNEL_NAME -n e
 ## 五、学习笔记目录列表
 
 - 一、基础环境的搭建步骤
-	- 1.1 [hyperledger1.0分布式环境搭建](doc/1.1hyperledger1.0分布式环境搭建.md)
-  - 1.2 [Fabric-CA1.0模块的搭建与使用](1.2、Fabric-CA1.0模块的搭建与使用.md)
+	- 1.1 [hyperledger1.0分布式环境搭建](doc/1.1.hyperledger1.0分布式环境搭建.md)
+  - 1.2 [Fabric-CA1.0模块的搭建与使用](doc/1.2.Fabric-CA1.0模块的搭建与使用.md)
 
 
 
