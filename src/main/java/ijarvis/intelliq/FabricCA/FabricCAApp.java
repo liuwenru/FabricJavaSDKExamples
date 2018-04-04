@@ -27,7 +27,6 @@ public class FabricCAApp {
         client.setCryptoSuite(cs);
         client.setUserContext(CAUSER);
     }
-
     /**
      * 调用链码添加KV结构
      */

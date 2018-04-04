@@ -13,7 +13,7 @@ import java.util.HashMap;
 
 public class TestConfigure {
     public static String CHAINCODENAME="epointchaincodecommon";
-    public static String CHAINCODEVERSION="0.2";
+    public static String CHAINCODEVERSION="0.1";
     public static String CHANNLNAME="epointchannel";
     public static HashMap<String,SampleOrg> getConfigure() throws MalformedURLException, InvalidArgumentException {
         HashMap<String,SampleOrg> orgHashMap=new HashMap<>();
