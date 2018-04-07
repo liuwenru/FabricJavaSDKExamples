@@ -47,10 +47,10 @@ Organizations:
     - &OrdererOrg
         # DefaultOrg defines the organization which is used in the sampleconfig
         # of the fabric.git development environment
-        Name: OrdererOrg
+        Name: Orderer1Org
 
         # ID to load the MSP definition as
-        ID: OrdererMSP
+        ID: Orderer1MSP
 
         # MSPDir is the filesystem path which contains the MSP configuration
         MSPDir: crypto-config/ordererOrganizations/epoint.com.cn/msp
@@ -104,7 +104,7 @@ Orderer: &OrdererDefaults
     OrdererType: solo
 
     Addresses:
-        - order1.epoint.com.cn:7050
+        - orderer1.epoint.com.cn:7050
 
     # Batch Timeout: The amount of time to wait before creating a batch
     BatchTimeout: 2s

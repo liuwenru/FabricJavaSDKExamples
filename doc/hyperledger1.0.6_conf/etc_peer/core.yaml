@@ -330,7 +330,7 @@ chaincode:
 
     golang:
         # golang will never need more than baseos
-        runtime: $(BASE_DOCKER_NS)/fabric-baseos:$(ARCH)-$(BASE_VERSION)
+        runtime: registry.epoint.com.cn/hyperledger/fabric-ccenv:x86_64-1.0.6
 
     car:
         # car may need more facilities (JVM, etc) in the future as the catalog

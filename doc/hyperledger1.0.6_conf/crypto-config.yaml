@@ -15,15 +15,8 @@ OrdererOrgs:
     # ---------------------------------------------------------------------------
     # "Specs" - See PeerOrgs below for complete description
     # ---------------------------------------------------------------------------
-    Specs:
-      - Hostname: order1.epoint.com.cn
-  - Name: Orderer2
-    Domain: epoint.com.cn
-    # ---------------------------------------------------------------------------
-    # "Specs" - See PeerOrgs below for complete description
-    # ---------------------------------------------------------------------------
-    Specs:
-      - Hostname: order2.epoint.com.cn
+    Template:
+      Count: 4
 # ---------------------------------------------------------------------------
 # "PeerOrgs" - Definition of organizations managing peer nodes
 # ---------------------------------------------------------------------------
@@ -33,7 +26,6 @@ PeerOrgs:
   # ---------------------------------------------------------------------------
   - Name: city1
     Domain: city1.epoint.com.cn
-    EnableNodeOUs: true
     # ---------------------------------------------------------------------------
     # "Specs"
     # ---------------------------------------------------------------------------
@@ -68,7 +60,7 @@ PeerOrgs:
     # name collisions
     # ---------------------------------------------------------------------------
     Template:
-      Count: 3
+      Count: 2
       # Start: 5
       # Hostname: {{.Prefix}}{{.Index}} # default
     # ---------------------------------------------------------------------------
@@ -77,14 +69,13 @@ PeerOrgs:
     # Count: The number of user accounts _in addition_ to Admin
     # ---------------------------------------------------------------------------
     Users:
-      Count: 2
+      Count: 5
   # ---------------------------------------------------------------------------
   # Org2: See "Org1" for full specification
   # ---------------------------------------------------------------------------
   - Name: city2
     Domain: city2.epoint.com.cn
-    EnableNodeOUs: true
     Template:
-      Count: 3
+      Count: 2
     Users:
       Count: 5

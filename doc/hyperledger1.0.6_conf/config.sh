@@ -1,11 +1,11 @@
 #!/bin/bash - 
 #===============================================================================
 #
-#          FILE: create_channel.sh
+#          FILE: config.sh
 # 
-#         USAGE: ./create_channel.sh 
+#         USAGE: ./config.sh 
 # 
-#   DESCRIPTION: 实现向已有超级账本中创建一个通道用来进行账本的同步
+#   DESCRIPTION: 
 # 
 #       OPTIONS: ---
 #  REQUIREMENTS: ---
@@ -13,13 +13,34 @@
 #         NOTES: ---
 #        AUTHOR: YOUR NAME (), 
 #  ORGANIZATION: 
-#       CREATED: 03/22/2018 16:14
+#       CREATED: 04/03/2018 16:00
 #      REVISION:  ---
 #===============================================================================
 
 set -o nounset                              # Treat unset variables as an error
 
-export CHANNELNAME=epointchannel
-export CORE_PEER_LOCALMSPID=city1MSP
+
+
+export CHANNEL_NAME=epointchannel
+export FABRIC_CFG_PATH=$PWD
+configtxgen -profile TwoOrgsOrdererGenesis -outputBlock ./genesis.block
+configtxgen -profile TwoOrgsChannel -outputCreateChannelTx ./${CHANNEL_NAME}.tx -channelID $CHANNEL_NAME
+
+
+
+
 export CORE_PEER_MSPCONFIGPATH=/root/hyperledger1.0.6_conf/crypto-config/peerOrganizations/city1.epoint.com.cn/users/Admin\@city1.epoint.com.cn/msp
-peer channel create -o orderer1.epoint.com.cn:7050  -c ${CHANNELNAME} -f ../${CHANNELNAME}.tx
+export CORE_PEER_ADDRESS=peer0.city1.epoint.com.cn:7051
+export CORE_PEER_LOCALMSPID="city1MSP"
+peer channel create -o orderer1.epoint.com.cn:7050 -c $CHANNEL_NAME -f ./${CHANNEL_NAME}.tx
+
+
+
+
+
+
+
+
+
+
+
