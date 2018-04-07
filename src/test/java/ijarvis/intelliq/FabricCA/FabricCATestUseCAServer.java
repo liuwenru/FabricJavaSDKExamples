@@ -1,12 +1,10 @@
 package ijarvis.intelliq.FabricCA;
 
-import ijarvis.intelliq.Fabric.FabricApp;
 import ijarvis.intelliq.LedgerRecord;
+import ijarvis.intelliq.TestConfigure;
 import org.apache.log4j.Logger;
 import org.hyperledger.fabric.sdk.Channel;
 import org.hyperledger.fabric.sdk.exception.CryptoException;
-import org.hyperledger.fabric.sdk.exception.TransactionException;
-import org.hyperledger.fabric.sdk.security.CryptoSuite;
 import org.hyperledger.fabric_ca.sdk.HFCAClient;
 import org.hyperledger.fabric_ca.sdk.exception.EnrollmentException;
 import org.hyperledger.fabric_ca.sdk.exception.InvalidArgumentException;

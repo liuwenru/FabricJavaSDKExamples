@@ -1,13 +1,10 @@
 package ijarvis.intelliq.Fabric;
 
 
-import ijarvis.intelliq.FabricCA.FabricCAApp;
-import ijarvis.intelliq.FabricCA.TestConfigure;
+import ijarvis.intelliq.TestConfigure;
 import ijarvis.intelliq.LedgerRecord;
 import org.apache.log4j.Logger;
 import org.hyperledger.fabric.sdk.Channel;
-import org.hyperledger.fabric.sdk.exception.CryptoException;
-import org.hyperledger.fabric.sdk.exception.InvalidArgumentException;
 import org.junit.Before;
 import org.junit.Ignore;
 import org.junit.Test;

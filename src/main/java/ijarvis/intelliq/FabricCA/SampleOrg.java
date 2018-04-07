@@ -29,10 +29,7 @@ public class SampleOrg {
     private SampleUser admin;
     private String caLocation;
     private Properties caProperties = null;
-
     private SampleUser peerAdmin;
-
-
     private String domainName;
 
     public SampleOrg(String name, String mspid) {

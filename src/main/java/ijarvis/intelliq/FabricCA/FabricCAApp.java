@@ -1,8 +1,11 @@
 package ijarvis.intelliq.FabricCA;
+/**
+ *  负责实际测试时干活的类，负责调用链上的链码
+ */
 
-import ijarvis.intelliq.Fabric.FabricApp;
-import ijarvis.intelliq.Fabric.SampleUser;
+
 import ijarvis.intelliq.LedgerRecord;
+import ijarvis.intelliq.TestConfigure;
 import org.apache.log4j.Logger;
 import org.hyperledger.fabric.sdk.*;
 import org.hyperledger.fabric.sdk.exception.CryptoException;
@@ -50,6 +53,7 @@ public class FabricCAApp {
             logger.debug("response: " + payload);
         }
         channel.sendTransaction(resps);
+
     }
     /**
      * 调用链码更新

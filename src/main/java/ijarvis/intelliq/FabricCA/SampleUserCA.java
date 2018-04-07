@@ -1,117 +1,84 @@
 package ijarvis.intelliq.FabricCA;
 
+import ijarvis.intelliq.TestConfigure;
 import org.hyperledger.fabric.sdk.Enrollment;
 import org.hyperledger.fabric.sdk.User;
+import org.hyperledger.fabric.sdk.security.CryptoSuite;
+import org.hyperledger.fabric_ca.sdk.HFCAClient;
+import org.hyperledger.fabric_ca.sdk.HFCAEnrollment;
+import org.hyperledger.fabric_ca.sdk.exception.EnrollmentException;
+import org.hyperledger.fabric_ca.sdk.exception.InvalidArgumentException;
 
-import javax.xml.bind.DatatypeConverter;
-import java.io.*;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.security.GeneralSecurityException;
-import java.security.KeyFactory;
-import java.security.PrivateKey;
-import java.security.spec.PKCS8EncodedKeySpec;
-import java.util.HashSet;
+import java.net.MalformedURLException;
 import java.util.Set;
 
 public class SampleUserCA implements User {
-
-    private final String certFolder;
-    private final String userName;
-    private String keyname;
-    private String cert;
-
-    public SampleUserCA(String certFolder, String userName) {
-        this.certFolder = certFolder;
+    private String userName="";
+    private String userPass="";
+    private String MSPID="";
+    private Enrollment enrollment;
+    public SampleUserCA(String userName, String userPass, String MSPID) throws MalformedURLException, InvalidArgumentException, EnrollmentException {
         this.userName = userName;
+        this.userPass = userPass;
+        this.MSPID = MSPID;
+        //调用Fabric的接口获取到注册用户的证书信息
+        HFCAClient client=HFCAClient.createNewInstance("epointca",TestConfigure.Fabric_CA_Server,null);
+        client.setCryptoSuite(CryptoSuite.Factory.getCryptoSuite());
+        this.enrollment=client.enroll(this.userName,this.userPass);
+
     }
 
     @Override
     public String getName() {
-        return userName;
+        return this.userName;
     }
 
     @Override
     public Set<String> getRoles() {
-        return new HashSet<String>();
+        return null;
     }
 
     @Override
     public String getAccount() {
-        return "";
+        return null;
     }
 
     @Override
     public String getAffiliation() {
-        return "";
+        return null;
     }
 
     @Override
     public Enrollment getEnrollment() {
-        return new Enrollment() {
-
-            @Override
-            public PrivateKey getKey() {
-                try {
-                    return loadPrivateKey(Paths.get(certFolder, "/caen.key"));
-                } catch (Exception e) {
-                    return null;
-                }
-            }
-            @Override
-            public String getCert() {
-                try {
-                    return new String(Files.readAllBytes(Paths.get(certFolder, "/cert.pem")));
-                } catch (Exception e) {
-                    return "";
-                }
-            }
-        };
+        return this.enrollment;
     }
 
     @Override
     public String getMspId() {
-        return "Org1MSP";
+        return this.MSPID;
     }
-    /***
-     * loading private key from .pem-formatted file, ECDSA algorithm
-     * (from some example on StackOverflow, slightly changed)
-     * @param fileName - file with the key
-     * @return Private Key usable
-     * @throws IOException
-     * @throws GeneralSecurityException
-     */
-    public static PrivateKey loadPrivateKey(Path fileName) throws IOException, GeneralSecurityException {
-        PrivateKey key = null;
-        InputStream is = null;
-        try {
-            is = new FileInputStream(fileName.toString());
-            BufferedReader br = new BufferedReader(new InputStreamReader(is));
-            StringBuilder builder = new StringBuilder();
-            boolean inKey = false;
-            for (String line = br.readLine(); line != null; line = br.readLine()) {
-                if (!inKey) {
-                    if (line.startsWith("-----BEGIN ") && line.endsWith(" PRIVATE KEY-----")) {
-                        inKey = true;
-                    }
-                    continue;
-                } else {
-                    if (line.startsWith("-----END ") && line.endsWith(" PRIVATE KEY-----")) {
-                        inKey = false;
-                        break;
-                    }
-                    builder.append(line);
-                }
-            }
-            //
-            byte[] encoded = DatatypeConverter.parseBase64Binary(builder.toString());
-            PKCS8EncodedKeySpec keySpec = new PKCS8EncodedKeySpec(encoded);
-            KeyFactory kf = KeyFactory.getInstance("ECDSA");
-            key = kf.generatePrivate(keySpec);
-        } finally {
-            is.close();
-        }
-        return key;
+
+    public String getUserName() {
+        return userName;
+    }
+
+    public void setUserName(String userName) {
+        this.userName = userName;
+    }
+
+    public String getUserPass() {
+        return userPass;
+    }
+
+    public void setUserPass(String userPass) {
+        this.userPass = userPass;
+    }
+
+    public String getMSPID() {
+        return MSPID;
+    }
+
+    public void setMSPID(String MSPID) {
+        this.MSPID = MSPID;
     }
 }

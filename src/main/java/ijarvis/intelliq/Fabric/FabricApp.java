@@ -1,6 +1,5 @@
 package ijarvis.intelliq.Fabric;
 
-import ijarvis.intelliq.FabricCA.SampleUserCA;
 import ijarvis.intelliq.LedgerRecord;
 import org.apache.log4j.Logger;
 import org.hyperledger.fabric.sdk.*;
@@ -24,7 +23,7 @@ public class FabricApp{
     public static HFClient client=null;
     public static CryptoSuite cs = CryptoSuite.Factory.getCryptoSuite();
     public static HashMap<String,SampleOrg> orgHashMap=null;
-    public static ChaincodeID cid = ChaincodeID.newBuilder().setName(ijarvis.intelliq.FabricCA.TestConfigure.CHAINCODENAME).setVersion(ijarvis.intelliq.FabricCA.TestConfigure.CHAINCODEVERSION).build();
+    public static ChaincodeID cid = ChaincodeID.newBuilder().setName(ijarvis.intelliq.TestConfigure.CHAINCODENAME).setVersion(ijarvis.intelliq.TestConfigure.CHAINCODEVERSION).build();
     public static User peer0org1=null;
     /**
      *  初始化超级账本的客户端等相关属性
