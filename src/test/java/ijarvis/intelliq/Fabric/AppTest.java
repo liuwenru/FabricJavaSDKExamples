@@ -51,7 +51,7 @@ public class AppTest {
     @Test
     public void TestEpointChainCodeQuery() throws Exception {
         logger.debug("测试Fabric 查询功能");
-        Channel channel = FabricApp.client.newChannel(TestConfigure.CHANNLNAME);
+        Channel channel = FabricApp.client.newChannel(TestConfigure.CHANNELNAME);
         channel.addPeer(FabricApp.client.newPeer("peer", FabricApp.orgHashMap.get("org1").getPeerLocation("peer0org1")));
         channel.addOrderer(FabricApp.client.newOrderer("orderer", FabricApp.orgHashMap.get("org1").getOrdererLocation("orderer")));
         channel.initialize();
