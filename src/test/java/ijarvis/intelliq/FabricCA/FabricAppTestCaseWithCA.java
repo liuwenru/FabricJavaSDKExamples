@@ -14,15 +14,19 @@ import org.junit.Test;
 public class FabricAppTestCaseWithCA {
 	private static Logger logger=Logger.getLogger(FabricAppTestCaseWithCA.class);
 	//LedgeVersion1 和 LedgeVersion2 是账本中实际记录的数据
-	private static LedgerRecord LedgeVersion1=new LedgerRecord("liuwenru","基础设置支持部");
-	private static LedgerRecord LedgeVersion2=new LedgerRecord("liuwenru","创新技术研究中心");
+	private static LedgerRecord LedgeVersion1=new LedgerRecord("epoint1","test1111111233333333223231");
+	private static LedgerRecord LedgeVersion2=new LedgerRecord("epoint1","test2");
 	private static SampleUserCA peeruser=null;
 	
 	// 构建测试环境
 	@Before
 	public void setup() throws MalformedURLException, InvalidArgumentException, EnrollmentException, CryptoException, org.hyperledger.fabric.sdk.exception.InvalidArgumentException, TransactionException {
 		peeruser=new SampleUserCA(TestConfigure.CA1PeerUserName, TestConfigure.CA1PeerUserPass, "city1MSP",TestConfigure.CA1ServerLocation);
-		FabricCAApp.init(peeruser, TestConfigure.City1Peer0Url, TestConfigure.Orderer1Url, TestConfigure.CHANNELNAME);
+		//全节点都发送广播策略
+		FabricCAApp.init(peeruser, TestConfigure.City1peersUrl+","+TestConfigure.City2peersUrl, TestConfigure.Orderer1Url, TestConfigure.CHANNELNAME,TestConfigure.CHAINCODENAME,TestConfigure.CHAINCODEVERSION);
+
+        //只发送单个节点策略
+        //FabricCAApp.init(peeruser, TestConfigure.City1Peer1Url, TestConfigure.Orderer1Url, TestConfigure.CHANNELNAME,TestConfigure.CHAINCODENAME,TestConfigure.CHAINCODEVERSION);
 	}
     @Test
     public void TestEpointChainCodeAddKV()throws Exception{

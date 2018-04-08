@@ -24,7 +24,7 @@ public class TestConfigure {
 	
 	
 	//TODO 需要调研一下如果通过代码获取到链码名称和版本，这样以后可以选择运行指定的智能合约
-	public static String CHAINCODENAME="epointchaincodecommon3"; // 当前的链码名称
+	public static String CHAINCODENAME="epointchaincodecommon10"; // 当前的链码名称
 	public static String CHAINCODEVERSION="0.1";  //     当前的链码版本
 	public static String CHANNELNAME="epointchannel";
 	
